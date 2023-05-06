@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createGlobalStyle } from 'styled-components';
 import App from './App';
-import bgImage from './img/bg.jpg';
+import bgImage from './img/сitychill.gif';
 
 const GlobalStyles = createGlobalStyle`
   body {
