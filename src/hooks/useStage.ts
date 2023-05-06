@@ -8,9 +8,23 @@ export type STAGE = STAGECELL[][];
 
 export const useStage = (player: PLAYER, resetPlayer: () => void) => {
     const [stage, setStage] = React.useState(createStage());
+    const [rowsClear, setRowsClear] = React.useState(0);
 
     React.useEffect(() => {
         if(!player.pos) return;
+        setRowsClear(0);
+
+        const sweepRows = (newStage: STAGE):STAGE => {
+            return newStage.reduce((ack, row) => {
+                if(row.findIndex(cell => cell[0] === 0) === -1) {
+                    setRowsClear(prev => prev + 1);
+                    ack.unshift(new Array(newStage[0].length).fill([0, 'clear']) as STAGECELL[]);
+                    return ack;
+                }
+                ack.push(row);
+                return ack;
+            }, [] as STAGE)
+        };
 
         const updateStage = (prevStage: STAGE): STAGE => {
             const newStage = prevStage.map(row => row.map(cell => (cell[1] === "clear" ? [0, 'clear']: cell)) as STAGECELL[]);
@@ -21,9 +35,14 @@ export const useStage = (player: PLAYER, resetPlayer: () => void) => {
                     }
                 });
             });
+
+            if(player.collided) {
+                resetPlayer();
+                return sweepRows(newStage);
+            }
             return newStage;
         };
         setStage(prev => updateStage(prev));
     }, [player.collided, player.pos?.x, player.pos?.y, player.tetromino]);
-    return {stage, setStage};
+    return {stage, setStage, rowsClear};
 };
