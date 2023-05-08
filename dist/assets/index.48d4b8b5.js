@@ -62,7 +62,7 @@ var e=Object.defineProperty,r=Object.defineProperties,t=Object.getOwnPropertyDes
   body {
     margin: 0;
     padding: 0;
-    background: url(${"/assets/сitychill.9cafe3f2.gif"}) #000;
+    background: url(${"/tetris/assets/сitychill.9cafe3f2.gif"}) #000;
     background-size: cover;
     background-position: center;
   }
